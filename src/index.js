@@ -6,12 +6,14 @@
 //    5) Get the value of the new to do list item
 //    6) Call toDoHandler when the form is submitted, and give it the to do list item
 //    7) Call addEventListenerToDeleteButtons, so that the event listener is added, and calls handleDelete when a button is clicked.
+
+let currentColor;
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("form").addEventListener("submit", (e) => {
     e.preventDefault();
     const newListItem = e.target["new-task-description"].value;
     toDoHandler(newListItem);
-    console.log(toDoHandler(newListItem)(liClosure));
     addEventListenerToDeleteButtons();
   });
 });
@@ -30,14 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function toDoHandler(toDoItem) {
   const li = document.createElement("li");
   li.textContent = `${toDoItem} `;
+  li.style.color = currentColor;
   document.querySelector("#tasks").appendChild(li);
   const button = document.createElement("button");
   button.textContent = "Done";
   button.id = "delete-button";
   li.appendChild(button);
-  const findLi = document.querySelector("#tasks li").textContent;
-  findLi.style.color = "blue";
-  console.log(`Heres the li: ${findLi}`);
 }
 
 // Change the color of the <li> based on the priority level
@@ -48,27 +48,27 @@ function toDoHandler(toDoItem) {
 // Dropdown menu listener
 document
   .querySelector("#priority-levels")
-  .addEventListener("change", changeLiColor);
+  .addEventListener("change", (event) => {
+    changeLiColor(event);
+  });
 
 // Change LI color callback function
 //    1) Find out which dropdown menu item was clicked
 //    2) Access the li item that was just added
-//    ?) Reset the value of li.styles.color accordingly
+//    ?) Reset the value of currentColor accordingly
 function changeLiColor(e) {
   const value = e.target.value;
   console.log(value);
-  //const li = document.querySelector("#tasks li");
-  //console.log(li);
 
   if (value === "high") {
     console.log("high priority: ");
-    li.style.color = "red";
+    currentColor = "red";
   } else if (value === "medium") {
     console.log("medium priority: ");
-    li.style.color = "green";
+    currentColor = "orange";
   } else if (value === "low") {
     console.log("low priority: ");
-    li.style.color = "yellow";
+    currentColor = "green";
   }
 }
 
